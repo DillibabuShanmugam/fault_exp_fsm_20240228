@@ -1,0 +1,22 @@
+app.elf  :
+section                 size    addr
+__interrupt_vector_13      2   65528
+__reset_vector             2   65534
+.rodata                    4   61440
+.text                    612   61444
+.data                      0     512
+.bss                      12     512
+.noinit                    0     524
+.MP430.attributes        345       0
+.comment                  57       0
+.debug_aranges           192       0
+.debug_info             3467       0
+.debug_abbrev           1122       0
+.debug_line             1700       0
+.debug_frame             324       0
+.debug_str              1551       0
+.debug_loc               327       0
+.debug_ranges             16       0
+Total                   9733
+
+

@@ -1,0 +1,433 @@
+
+app.elf:     file format elf32-msp430
+
+SYMBOL TABLE:
+0000fff8 l    d  __interrupt_vector_13	00000000 __interrupt_vector_13
+0000fffe l    d  __reset_vector	00000000 __reset_vector
+0000f000 l    d  .rodata	00000000 .rodata
+0000f004 l    d  .text	00000000 .text
+00000200 l    d  .data	00000000 .data
+00000200 l    d  .bss	00000000 .bss
+0000020c l    d  .noinit	00000000 .noinit
+00000000 l    d  .MP430.attributes	00000000 .MP430.attributes
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    df *ABS*	00000000 main.c
+00000000 l    df *ABS*	00000000 /opt/ti/msp430-gcc-9.3.1.11_linux64/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430/crt0.o
+0000fffe l       __reset_vector	00000000 __msp430_resetvec_hook
+00000000 l    df *ABS*	00000000 crt_bss.o
+00000000 l    df *ABS*	00000000 crt_main.o
+00000000 l    df *ABS*	00000000 crt_callexit.o
+00000000 l    df *ABS*	00000000 initialize.c
+00000000 l    df *ABS*	00000000 code.c
+00000000 l    df *ABS*	00000000 exit.c
+00000000 l    df *ABS*	00000000 lib_a-memset.o
+00000000 l    df *ABS*	00000000 oracle.c
+00000000 l    df *ABS*	00000000 countermeasure.c
+00000208 g     O .bss	00000001 g_countermeasure
+0000f0a0 g     F .text	0000002c byteArrayCompare
+0000f01c g     F .text	00000004 __crt0_call_exit
+00000209 g     O .bss	00000001 g_ptc
+0000f020 g     F .text	00000004 NMI_ISR
+0000f004 g     F .text	00000004 __crt0_start
+0000f008 g     F .text	0000000e __crt0_init_bss
+0000000c g       *ABS*	00000000 __bsssize
+0000f0c8 g     F .text	0000006c verifyPIN
+0000020c g       .noinit	00000000 end
+0000f004 g       .text	00000000 _start
+0000020a g     O .bss	00000001 g_authenticated
+00000000  w      *ABS*	00000000 __rom_highdatacopysize
+0000f134 g     F .text	00000014 memset
+0000f022 g     F .text	00000046 main
+00000000  w      *ABS*	00000000 __high_bsssize
+00000000  w      *ABS*	00000000 __rom_highdatastart
+00000204 g     O .bss	00000004 g_userPin
+00000000  w      *ABS*	00000000 __high_datastart
+00000000  w      *ABS*	00000000 __upper_data_init
+00000200 g       .bss	00000000 __bssstart
+00001200 g       .noinit	00000000 __stack
+00000200 g       .data	00000000 _edata
+0000f066 g     F .text	0000003a initialize
+0000f132  w    F .text	00000004 exit
+00000000  w      *ABS*	00000000 __high_bssstart
+0000f016 g     F .text	00000006 __crt0_call_main
+0000f132  w    F .text	00000004 _exit
+00000200 g     O .bss	00000004 g_cardPin
+
+
+
+Disassembly of section __interrupt_vector_13:
+
+0000fff8 <__interrupt_vector_13>:
+    fff8:	20 f0       	interrupt service routine at 0xf020
+
+Disassembly of section .text:
+
+0000f004 <__crt0_start>:
+    f004:	31 40 00 12 	mov	#4608,	r1	;#0x1200
+
+0000f008 <__crt0_init_bss>:
+    f008:	3c 40 00 02 	mov	#512,	r12	;#0x0200
+
+0000f00c <.Loc.76.1>:
+    f00c:	0d 43       	clr	r13		;
+
+0000f00e <.Loc.77.1>:
+    f00e:	3e 40 0c 00 	mov	#12,	r14	;#0x000c
+
+0000f012 <.Loc.81.1>:
+    f012:	b0 12 34 f1 	call	#-3788		;#0xf134
+
+0000f016 <__crt0_call_main>:
+    f016:	0c 43       	clr	r12		;
+
+0000f018 <.Loc.254.1>:
+    f018:	b0 12 22 f0 	call	#-4062		;#0xf022
+
+0000f01c <__crt0_call_exit>:
+    f01c:	b0 12 32 f1 	call	#-3790		;#0xf132
+
+0000f020 <NMI_ISR>:
+//-----------------------NMI --------------
+// #define NMI_VECTOR          (0x0018)   // Vector 12  (0xFFF8) - Non-maskable
+interrupt(13) NMI_ISR(void)  // !!! interrupt(x) = interrupt(vector + 1)
+{
+//  P1OUT = 0x00; // clear nmi here
+  while(1);
+    f020:	ff 3f       	jmp	$+0      	;abs 0xf020
+
+0000f022 <main>:
+    f022:	32 d2       	eint			
+
+0000f024 <L0^A>:
+
+int main()
+{
+  asm("eint");
+
+  WDTCTL = WDTPW | WDTHOLD;
+    f024:	b2 40 80 5a 	mov	#23168,	&0x0120	;#0x5a80
+    f028:	20 01 
+
+0000f02a <.Loc.57.1>:
+  P1DIR = 0x00;
+    f02a:	82 43 1c 00 	mov	#0,	&0x001c	;r3 As==00
+
+0000f02e <.Loc.59.1>:
+
+  initialize();
+    f02e:	b0 12 66 f0 	call	#-3994		;#0xf066
+
+0000f032 <.LVL0>:
+  P1OUT = 0x80;//trigger up
+    f032:	b2 40 80 00 	mov	#128,	&0x001a	;#0x0080
+    f036:	1a 00 
+
+0000f038 <.Loc.61.1>:
+  BOOL pin_verified = verifyPIN();
+    f038:	b0 12 c8 f0 	call	#-3896		;#0xf0c8
+
+0000f03c <.LVL1>:
+  if(pin_verified)
+    f03c:	4c 93       	cmp.b	#0,	r12	;r3 As==00
+    f03e:	10 24       	jz	$+34     	;abs 0xf060
+
+0000f040 <.Loc.63.1>:
+	  P2OUT = 0xFF;
+    f040:	b2 40 ff 00 	mov	#255,	&0x0028	;#0x00ff
+    f044:	28 00 
+
+0000f046 <.L5>:
+  else
+	  P2OUT = 0x00;
+
+  P1OUT = 0x00;//trigger down
+    f046:	82 43 1a 00 	mov	#0,	&0x001a	;r3 As==00
+
+0000f04a <.Loc.68.1>:
+  if (P2IN != P2OUT) {
+    f04a:	1d 42 26 00 	mov	&0x0026,r13	;0x0026
+
+0000f04e <.Loc.68.1>:
+    f04e:	1c 42 28 00 	mov	&0x0028,r12	;0x0028
+
+0000f052 <.LVL2>:
+    f052:	0d 9c       	cmp	r12,	r13	;
+    f054:	03 24       	jz	$+8      	;abs 0xf05c
+
+0000f056 <.Loc.69.1>:
+        P1OUT = 0x05;
+    f056:	b2 40 05 00 	mov	#5,	&0x001a	;
+    f05a:	1a 00 
+
+0000f05c <.L6>:
+  LAZART_ORACLE(oracle());
+
+
+   // printf("[@] g_countermeasure = %i, g_authenticated = %x, g_ptc = %i\n", g_countermeasure, g_authenticated, g_ptc);
+    return 0;
+}
+    f05c:	4c 43       	clr.b	r12		;
+    f05e:	30 41       	ret			
+
+0000f060 <.L4>:
+	  P2OUT = 0x00;
+    f060:	82 43 28 00 	mov	#0,	&0x0028	;r3 As==00
+    f064:	f0 3f       	jmp	$-30     	;abs 0xf046
+
+0000f066 <initialize>:
+void initialize()
+{
+   // local variables
+   int i;
+   // global variables initialization
+   g_authenticated = 0;
+    f066:	
+0000f068 <L0^A>:
+    f068:	0a 02       	mova	@r2,	r10	;
+
+0000f06a <.Loc.37.1>:
+   g_ptc = 3;
+    f06a:	f2 40 03 00 	mov.b	#3,	&0x0209	;
+    f06e:	09 02 
+
+0000f070 <.Loc.38.1>:
+   g_countermeasure = 0;
+    f070:	c2 43 08 02 	mov.b	#0,	&0x0208	;r3 As==00
+
+0000f074 <.LVL0>:
+   // card PIN = 1 2 3 4 5...
+   for (i = 0; i < PIN_SIZE; ++i) {
+       g_cardPin[i] = i+1;
+    f074:	3c 40 00 02 	mov	#512,	r12	;#0x0200
+    f078:	dc 43 00 00 	mov.b	#1,	0(r12)	;r3 As==01
+
+0000f07c <.LVL1>:
+    f07c:	ec 43 01 00 	mov.b	#2,	1(r12)	;r3 As==10
+
+0000f080 <.LVL2>:
+    f080:	fc 40 03 00 	mov.b	#3,	2(r12)	;
+    f084:	02 00 
+
+0000f086 <.LVL3>:
+    f086:	ec 42 03 00 	mov.b	#4,	3(r12)	;r2 As==10
+
+0000f08a <.LVL4>:
+   }
+   // user PIN = 0 0 0 0 0...
+   for (i = 0 ; i < PIN_SIZE; ++i) {
+       g_userPin[i] = 0;
+    f08a:	3c 40 04 02 	mov	#516,	r12	;#0x0204
+    f08e:	cc 43 00 00 	mov.b	#0,	0(r12)	;r3 As==00
+
+0000f092 <.LVL5>:
+    f092:	cc 43 01 00 	mov.b	#0,	1(r12)	;r3 As==00
+
+0000f096 <.LVL6>:
+    f096:	cc 43 02 00 	mov.b	#0,	2(r12)	;r3 As==00
+
+0000f09a <.LVL7>:
+    f09a:	cc 43 03 00 	mov.b	#0,	3(r12)	;r3 As==00
+
+0000f09e <.LVL8>:
+   }
+}
+    f09e:	30 41       	ret			
+
+0000f0a0 <byteArrayCompare>:
+#ifdef INLINE
+__attribute__((always_inline)) inline BOOL byteArrayCompare(UBYTE* a1, UBYTE* a2, UBYTE size)
+#else
+BOOL byteArrayCompare(UBYTE* a1, UBYTE* a2, UBYTE size)
+#endif
+{
+    f0a0:	0a 12       	push	r10		;
+
+0000f0a2 <.LCFI0>:
+    f0a2:	3e f0 ff 00 	and	#255,	r14	;#0x00ff
+
+0000f0a6 <.LVL1>:
+    int i;
+    for(i = 0; i < size; i++) {
+    f0a6:	4f 43       	clr.b	r15		;
+
+0000f0a8 <.L2>:
+    f0a8:	0f 9e       	cmp	r14,	r15	;
+    f0aa:	03 38       	jl	$+8      	;abs 0xf0b2
+
+0000f0ac <.Loc.52.1>:
+        if(a1[i] != a2[i]) {
+            return 0;
+        }
+    }
+    return 1;
+    f0ac:	5c 43       	mov.b	#1,	r12	;r3 As==01
+
+0000f0ae <.L3>:
+}
+    f0ae:	3a 41       	pop	r10		;
+
+0000f0b0 <.LCFI1>:
+    f0b0:	30 41       	ret			
+
+0000f0b2 <.L4>:
+        if(a1[i] != a2[i]) {
+    f0b2:	0a 4d       	mov	r13,	r10	;
+    f0b4:	0a 5f       	add	r15,	r10	;
+
+0000f0b6 <.Loc.48.1>:
+    f0b6:	0b 4c       	mov	r12,	r11	;
+    f0b8:	0b 5f       	add	r15,	r11	;
+    f0ba:	eb 9a 00 00 	cmp.b	@r10,	0(r11)	;
+    f0be:	02 20       	jnz	$+6      	;abs 0xf0c4
+
+0000f0c0 <.Loc.47.1>:
+    for(i = 0; i < size; i++) {
+    f0c0:	1f 53       	inc	r15		;
+    f0c2:	f2 3f       	jmp	$-26     	;abs 0xf0a8
+
+0000f0c4 <.L5>:
+            return 0;
+    f0c4:	4c 43       	clr.b	r12		;
+
+0000f0c6 <.LVL6>:
+    f0c6:	f3 3f       	jmp	$-24     	;abs 0xf0ae
+
+0000f0c8 <verifyPIN>:
+    f0c8:	0a 12       	push	r10		;
+
+0000f0ca <.LCFI3>:
+
+BOOL verifyPIN() {
+    g_authenticated = 0;
+    f0ca:	
+0000f0cc <L0^A>:
+    f0cc:	0a 02       	mova	@r2,	r10	;
+
+0000f0ce <.Loc.58.1>:
+    // Hardcode the user PIN
+    g_userPin[0] = USER_PIN_0;
+    f0ce:	d2 43 04 02 	mov.b	#1,	&0x0204	;r3 As==01
+
+0000f0d2 <.Loc.59.1>:
+    g_userPin[1] = USER_PIN_1;
+    f0d2:	e2 43 05 02 	mov.b	#2,	&0x0205	;r3 As==10
+
+0000f0d6 <.Loc.60.1>:
+    g_userPin[2] = USER_PIN_2;
+    f0d6:	f2 40 03 00 	mov.b	#3,	&0x0206	;
+    f0da:	06 02 
+
+0000f0dc <.Loc.61.1>:
+    g_userPin[3] = USER_PIN_3;
+    f0dc:	e2 42 07 02 	mov.b	#4,	&0x0207	;r2 As==10
+
+0000f0e0 <.Loc.64.1>:
+
+    // Hardcode the card PIN
+    g_cardPin[0] = CARD_PIN_0;
+    f0e0:	d2 43 00 02 	mov.b	#1,	&0x0200	;r3 As==01
+
+0000f0e4 <.Loc.65.1>:
+    g_cardPin[1] = CARD_PIN_1;
+    f0e4:	e2 43 01 02 	mov.b	#2,	&0x0201	;r3 As==10
+
+0000f0e8 <.Loc.66.1>:
+    g_cardPin[2] = CARD_PIN_2;
+    f0e8:	f2 40 03 00 	mov.b	#3,	&0x0202	;
+    f0ec:	02 02 
+
+0000f0ee <.Loc.67.1>:
+    g_cardPin[3] = CARD_PIN_3;
+    f0ee:	e2 42 03 02 	mov.b	#4,	&0x0203	;r2 As==10
+
+0000f0f2 <.Loc.68.1>:
+    if(g_ptc > 0) {
+    f0f2:	5a 42 09 02 	mov.b	&0x0209,r10	;0x0209
+    f0f6:	8a 11       	sxt	r10		;
+
+0000f0f8 <.Loc.79.1>:
+            g_ptc--;
+            return 0;
+        }
+    }
+
+    return 0;
+    f0f8:	4c 43       	clr.b	r12		;
+
+0000f0fa <.Loc.68.1>:
+    if(g_ptc > 0) {
+    f0fa:	4d 43       	clr.b	r13		;
+    f0fc:	5d 92 09 02 	cmp.b	&0x0209,r13	;0x0209
+    f100:	11 34       	jge	$+36     	;abs 0xf124
+
+0000f102 <.Loc.69.1>:
+        if(byteArrayCompare(g_userPin, g_cardPin, PIN_SIZE) == 1) {
+    f102:	6e 42       	mov.b	#4,	r14	;r2 As==10
+    f104:	3d 40 00 02 	mov	#512,	r13	;#0x0200
+    f108:	3c 40 04 02 	mov	#516,	r12	;#0x0204
+    f10c:	b0 12 a0 f0 	call	#-3936		;#0xf0a0
+
+0000f110 <.LVL7>:
+    f110:	4d 4c       	mov.b	r12,	r13	;
+    f112:	3c f0 ff 00 	and	#255,	r12	;#0x00ff
+
+0000f116 <.Loc.69.1>:
+    f116:	5d 93       	cmp.b	#1,	r13	;r3 As==01
+    f118:	07 20       	jnz	$+16     	;abs 0xf128
+
+0000f11a <.Loc.70.1>:
+            g_ptc = 3;
+    f11a:	f2 40 03 00 	mov.b	#3,	&0x0209	;
+    f11e:	09 02 
+
+0000f120 <.Loc.71.1>:
+            g_authenticated = 1; // Authentication();
+    f120:	d2 43 0a 02 	mov.b	#1,	&0x020a	;r3 As==01
+
+0000f124 <.L7>:
+}
+    f124:	3a 41       	pop	r10		;
+
+0000f126 <.LCFI4>:
+    f126:	30 41       	ret			
+
+0000f128 <.L8>:
+            g_ptc--;
+    f128:	7a 53       	add.b	#-1,	r10	;r3 As==11
+    f12a:	c2 4a 09 02 	mov.b	r10,	&0x0209	;
+
+0000f12e <.Loc.75.1>:
+            return 0;
+    f12e:	4c 43       	clr.b	r12		;
+    f130:	f9 3f       	jmp	$-12     	;abs 0xf124
+
+0000f132 <_exit>:
+    f132:	ff 3f       	jmp	$+0      	;abs 0xf132
+
+0000f134 <memset>:
+    f134:	0e 5c       	add	r12,	r14	;
+
+0000f136 <L0^A>:
+    f136:	0f 4c       	mov	r12,	r15	;
+
+0000f138 <.L2>:
+    f138:	0f 9e       	cmp	r14,	r15	;
+    f13a:	01 20       	jnz	$+4      	;abs 0xf13e
+
+0000f13c <.Loc.104.1>:
+    f13c:	30 41       	ret			
+
+0000f13e <.L3>:
+    f13e:	1f 53       	inc	r15		;
+
+0000f140 <.LVL4>:
+    f140:	cf 4d ff ff 	mov.b	r13,	-1(r15)	; 0xffff
+    f144:	f9 3f       	jmp	$-12     	;abs 0xf138

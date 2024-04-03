@@ -1,0 +1,43 @@
+f01c:	ff 3f       	jmp	$+0      	;abs 0xf01c ;while(1)                    'inside of NMI while loop'
+
+f01e:	32 d2       	eint	                            ;asm("eint");                'enable interrupt'	
+
+f020:	b2 40 80 5a 	mov	#23168,	&0x0120	;#0x5a80    ;WDTCTL = WDTPW | WDTHOLD;   'stop watchdog'
+f024:	20 01						                                 'stop watchdog(continue)' 
+
+f026:	82 43 00 02 	mov	#0,	&0x0200	;r3 As==00  ;state = 0;		         'state = 0;'	
+
+f02a:	82 43 1c 00 	mov	#0,	&0x001c	;r3 As==00  ;P1DIR = 0x00;	         'P1DIR = 0x00;'
+
+f02e:	b2 40 80 00 	mov	#128,	&0x001a	;#0x0080    ;P1OUT = 0x80;               'P1OUT = 0x80;'
+f032:	1a 00                                                                            'P1OUT = 0x80;(continue)'
+
+f034:	1c 42 00 02 	mov	&0x0200,r12	;0x0200	    ;switch (state)              'check state - mov state r12'
+f038:	0c 93       	cmp	#0,	r12	;r3 As==00                               'check state - if 0'
+f03a:	0e 24       	jz	$+30     	;abs 0xf058                              'check state - jmp f058'
+f03c:	1c 93       	cmp	#1,	r12	;r3 As==01                               'check state - if 1'
+f03e:	15 24       	jz	$+44     	;abs 0xf06a                              'check state - jmp f06a'
+
+f058:	82 43 28 00 	mov	#0,	&0x0028	;r3 As==00  ;P2OUT = 0x0;                'enter state 0 - P2OUT = 0x0;'
+f05c:	1c 42 26 00 	mov	&0x0026,r12	;0x0026     ;if (P2IN == 0x1) state = 1; 'in state 0 - check p2in=1? - mov p1in r12'
+f060:	1c 93       	cmp	#1,	r12	;r3 As==01                               'in state 0 - check p2in=1? - cmp #1 12'
+f062:	ee 23       	jnz	$-34     	;abs 0xf040                              'in state 0 - check p2in=1? - jnz f040'
+f064:	92 43 00 02 	mov	#1,	&0x0200	;r3 As==01                               'change state from 0 to 1 - mov #1 state'
+f068:	eb 3f       	jmp	$-40     	;abs 0xf040                              'jmp f040'
+
+f06a:	92 43 28 00 	mov	#1,	&0x0028	;r3 As==01  ;P2OUT = 0x1;                'enter state 1 - P2OUT = 0x1;'
+f06e:   1c 42 26 00     mov     &0x0026,r12     ;0x0026     ;if (P2IN == 0x0) state = 0; 'in state 1 - check p2in=0? - mov p1in r12'
+f072:   0c 93           cmp     #0,     r12     ;r3 As==00                               'in state 1 - check p2in=0? - cmp #0 12'
+f074:   e5 23           jnz     $-52            ;abs 0xf040                              'in state 1 - check p2in=0? - jnz f040'
+f076:   82 43 00 02     mov     #0,     &0x0200 ;r3 As==00                               'change state from 1 to 0 - mov #0 state'
+f07a:   e2 3f           jmp     $-58            ;abs 0xf040                              'jmp f040'
+
+f040:   82 43 1a 00     mov     #0,     &0x001a ;r3 As==00  ;P1OUT = 0x00;               'P1OUT = 0x00;'
+
+f044:   1d 42 26 00     mov     &0x0026,r13     ;0x0026     ;if (P2IN != P2OUT)          'check p1in p1out - mov p2in r13'
+f048:   1c 42 28 00     mov     &0x0028,r12     ;0x0028                                  'check p1in p1out - mov p2out r12'
+f04c:   0d 9c           cmp     r12,    r13     ;                                        'check p1in p1out - cmp r12 r13'
+f04e:   ef 27           jz      $-32            ;abs 0xf02e                              'check p1in p1out - jz f02e'
+f050:   b2 40 05 00     mov     #5,     &0x001a ;           ;P1OUT = 0x05;               'check p1in p1out - nmi enable'
+f054:   1a 00                                                                            'check p1in p1out - nmi enable;(continue)'
+f056:   eb 3f           jmp     $-40            ;abs 0xf02e                              'check p1in p1out - jmp f02e'

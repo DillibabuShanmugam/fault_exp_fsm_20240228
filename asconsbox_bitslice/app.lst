@@ -1,0 +1,230 @@
+
+app.elf:     file format elf32-msp430
+
+SYMBOL TABLE:
+0000fff8 l    d  __interrupt_vector_13	00000000 __interrupt_vector_13
+0000fffe l    d  __reset_vector	00000000 __reset_vector
+0000f000 l    d  .rodata	00000000 .rodata
+0000f004 l    d  .text	00000000 .text
+00000200 l    d  .data	00000000 .data
+00000200 l    d  .bss	00000000 .bss
+00000200 l    d  .noinit	00000000 .noinit
+00000000 l    d  .MP430.attributes	00000000 .MP430.attributes
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    df *ABS*	00000000 main.c
+00000000 l    df *ABS*	00000000 /opt/ti/msp430-gcc-9.3.1.11_linux64/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430/crt0.o
+0000fffe l       __reset_vector	00000000 __msp430_resetvec_hook
+00000000 l    df *ABS*	00000000 crt_main.o
+0000f00e g     F .text	00000002 NMI_ISR
+0000f004 g     F .text	00000004 __crt0_start
+00000200 g       .noinit	00000000 end
+0000f004 g       .text	00000000 _start
+00000000  w      *ABS*	00000000 __rom_highdatacopysize
+0000f010 g     F .text	000000be main
+00000000  w      *ABS*	00000000 __high_bsssize
+00000000  w      *ABS*	00000000 __rom_highdatastart
+00000000  w      *ABS*	00000000 __high_datastart
+00000000  w      *ABS*	00000000 __upper_data_init
+00001200 g       .noinit	00000000 __stack
+00000200 g       .data	00000000 _edata
+00000000  w      *ABS*	00000000 __high_bssstart
+0000f008 g     F .text	00000006 __crt0_call_main
+
+
+
+Disassembly of section __interrupt_vector_13:
+
+0000fff8 <__interrupt_vector_13>:
+    fff8:	0e f0       	interrupt service routine at 0xf00e
+
+Disassembly of section .text:
+
+0000f004 <__crt0_start>:
+    f004:	31 40 00 12 	mov	#4608,	r1	;#0x1200
+
+0000f008 <__crt0_call_main>:
+    f008:	0c 43       	clr	r12		;
+
+0000f00a <.Loc.254.1>:
+    f00a:	b0 12 10 f0 	call	#-4080		;#0xf010
+
+0000f00e <NMI_ISR>:
+
+// #define NMI_VECTOR          (0x0018)   // Vector 12  (0xFFF8) - Non-maskable
+interrupt(13) NMI_ISR(void)  // !!! interrupt(x) = interrupt(vector + 1)
+{
+//  P1OUT = 0x00; // clear nmi here
+  while(1);
+    f00e:	ff 3f       	jmp	$+0      	;abs 0xf00e
+
+0000f010 <main>:
+//uint8_t  x1[8] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6};
+//uint8_t  x2[8] = {0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0xcc};
+//uint8_t  x3[8] = {0x32, 0x43, 0xf6, 0xa8, 0x88, 0x5a, 0x30, 0x8d};
+//uint8_t  x4[8] = {0x31, 0x31, 0x98, 0xa2, 0xe0, 0x37, 0x07, 0x34};
+
+int main(){
+    f010:	0a 12       	push	r10		;
+
+0000f012 <.LCFI0>:
+    f012:	09 12       	push	r9		;
+
+0000f014 <.LCFI1>:
+    f014:	08 12       	push	r8		;
+
+0000f016 <.LCFI2>:
+    f016:	31 80 20 00 	sub	#32,	r1	;#0x0020
+
+0000f01a <.LCFI3>:
+
+  uint16_t  x0[4] = {0x8040, 0x0C06, 0x0000, 0x0000};
+    f01a:	b1 40 40 80 	mov	#-32704,0(r1)	;#0x8040
+    f01e:	00 00 
+    f020:	b1 40 06 0c 	mov	#3078,	2(r1)	;#0x0c06
+    f024:	02 00 
+    f026:	81 43 04 00 	mov	#0,	4(r1)	;r3 As==00
+    f02a:	81 43 06 00 	mov	#0,	6(r1)	;r3 As==00
+
+0000f02e <.Loc.30.1>:
+  uint16_t  x1[4] = {0x2b7e, 0x1516, 0x28ae, 0xd2a6};
+    f02e:	b1 40 7e 2b 	mov	#11134,	8(r1)	;#0x2b7e
+    f032:	08 00 
+    f034:	b1 40 16 15 	mov	#5398,	10(r1)	;#0x1516, 0x000a
+    f038:	0a 00 
+    f03a:	b1 40 ae 28 	mov	#10414,	12(r1)	;#0x28ae, 0x000c
+    f03e:	0c 00 
+    f040:	b1 40 a6 d2 	mov	#-11610,14(r1)	;#0xd2a6, 0x000e
+    f044:	0e 00 
+
+0000f046 <.Loc.31.1>:
+  uint16_t  x2[4] = {0xabf7, 0x1588, 0x09cf, 0x4fcc};
+  uint16_t  x3[4] = {0x3243, 0xf6a8, 0x885a, 0x308d};
+    f046:	b1 40 43 32 	mov	#12867,	16(r1)	;#0x3243, 0x0010
+    f04a:	10 00 
+    f04c:	b1 40 a8 f6 	mov	#-2392,	18(r1)	;#0xf6a8, 0x0012
+    f050:	12 00 
+    f052:	b1 40 5a 88 	mov	#-30630,20(r1)	;#0x885a, 0x0014
+    f056:	14 00 
+    f058:	b1 40 8d 30 	mov	#12429,	22(r1)	;#0x308d, 0x0016
+    f05c:	16 00 
+
+0000f05e <.Loc.33.1>:
+  uint16_t  x4[4] = {0x3131, 0x98a2, 0xe037, 0x0734};
+    f05e:	b1 40 31 31 	mov	#12593,	24(r1)	;#0x3131, 0x0018
+    f062:	18 00 
+    f064:	b1 40 a2 98 	mov	#-26462,26(r1)	;#0x98a2, 0x001a
+    f068:	1a 00 
+    f06a:	b1 40 37 e0 	mov	#-8137,	28(r1)	;#0xe037, 0x001c
+    f06e:	1c 00 
+    f070:	b1 40 34 07 	mov	#1844,	30(r1)	;#0x0734, 0x001e
+    f074:	1e 00 
+    f076:	09 41       	mov	r1,	r9	;
+    f078:	39 50 18 00 	add	#24,	r9	;#0x0018
+
+0000f07c <.L6>:
+
+
+  while(1) {
+
+    asm("eint");
+    f07c:	32 d2       	eint			
+
+0000f07e <.Loc.40.1>:
+
+    WDTCTL = WDTPW | WDTHOLD;
+    f07e:	b2 40 80 5a 	mov	#23168,	&0x0120	;#0x5a80
+    f082:	20 01 
+
+0000f084 <.Loc.41.1>:
+    P1DIR = 0x00;
+    f084:	82 43 1c 00 	mov	#0,	&0x001c	;r3 As==00
+
+0000f088 <.Loc.44.1>:
+
+
+    P1OUT = 0x80; //Tup
+    f088:	b2 40 80 00 	mov	#128,	&0x001a	;#0x0080
+    f08c:	1a 00 
+
+0000f08e <.LVL0>:
+    uint16_t t0[4],t1[4],t2[4],t3[4],t4[4];
+    uint16_t y0[4],y1[4],y2[4],y3[4],y4[4];
+
+    //---------- Sbox -----------
+
+     for(j = 0; j < 4; ++j)
+    f08e:	0e 41       	mov	r1,	r14	;
+    f090:	3e 50 10 00 	add	#16,	r14	;#0x0010
+    f094:	0a 49       	mov	r9,	r10	;
+    f096:	0b 41       	mov	r1,	r11	;
+    f098:	0f 41       	mov	r1,	r15	;
+    f09a:	3f 52       	add	#8,	r15	;r2 As==11
+
+0000f09c <.L5>:
+     { 
+             
+             q0[j] = !(x3[j] ^ x4[j]);
+    f09c:	3c 4a       	mov	@r10+,	r12	;
+
+0000f09e <.Loc.57.1>:
+             q2[j] = x0[j] ^ x2[j] ^ x4[j];
+             q3[j] = x1[j];
+             t1[j] = q2[j] & q3[j];
+             q4[j] = x0[j] ^ x1[j] ^ x4[j];
+             q5[j] = x1[j];
+             t2[j] = q4[j] & q5[j];
+    f09e:	0d 4c       	mov	r12,	r13	;
+    f0a0:	3d eb       	xor	@r11+,	r13	;
+    f0a2:	38 4f       	mov	@r15+,	r8	;
+    f0a4:	08 cd       	bic	r13,	r8	;
+    f0a6:	0d 48       	mov	r8,	r13	;
+
+0000f0a8 <.Loc.65.1>:
+             q6[j] = x3[j] ^ x4[j];
+    f0a8:	3c ee       	xor	@r14+,	r12	;
+
+0000f0aa <.Loc.76.1>:
+             y0[j] = x0[j] ^ x1[j] ^ x2[j] ^ x3[j] ^ t1[j];
+             y1[j] = x0[j] ^ x2[j] ^ x3[j] ^ x4[j] ^ t4[j];
+             y2[j] = x1[j] ^ x2[j] ^ x3[j] ^ t0[j];
+             y3[j] = x0[j] ^ x1[j] ^ x2[j] ^ x3[j] ^ x4[j] ^ t3[j];
+             y4[j] = x3[j] ^ x4[j] ^ t2[j];
+             P2OUT = y4[j];
+    f0aa:	0d ec       	xor	r12,	r13	;
+    f0ac:	82 4d 28 00 	mov	r13,	&0x0028	;
+
+0000f0b0 <.Loc.53.1>:
+     for(j = 0; j < 4; ++j)
+    f0b0:	0e 99       	cmp	r9,	r14	;
+    f0b2:	f4 23       	jnz	$-22     	;abs 0xf09c
+
+0000f0b4 <.Loc.80.1>:
+
+     } 
+
+    P1OUT = 0x00;//trigger down
+    f0b4:	82 43 1a 00 	mov	#0,	&0x001a	;r3 As==00
+
+0000f0b8 <.Loc.81.1>:
+    if (P2IN != P2OUT) {
+    f0b8:	1d 42 26 00 	mov	&0x0026,r13	;0x0026
+
+0000f0bc <.Loc.81.1>:
+    f0bc:	1c 42 28 00 	mov	&0x0028,r12	;0x0028
+
+0000f0c0 <.Loc.81.1>:
+    f0c0:	0d 9c       	cmp	r12,	r13	;
+    f0c2:	dc 27       	jz	$-70     	;abs 0xf07c
+
+0000f0c4 <.Loc.82.1>:
+        P1OUT = 0x05;
+    f0c4:	b2 40 05 00 	mov	#5,	&0x001a	;
+    f0c8:	1a 00 
+    f0ca:	d8 3f       	jmp	$-78     	;abs 0xf07c

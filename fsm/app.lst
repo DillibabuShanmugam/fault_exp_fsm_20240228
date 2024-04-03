@@ -1,0 +1,199 @@
+
+app.elf:     file format elf32-msp430
+
+SYMBOL TABLE:
+0000fff8 l    d  __interrupt_vector_13	00000000 __interrupt_vector_13
+0000fffe l    d  __reset_vector	00000000 __reset_vector
+0000f000 l    d  .rodata	00000000 .rodata
+0000f004 l    d  .text	00000000 .text
+00000200 l    d  .data	00000000 .data
+00000200 l    d  .bss	00000000 .bss
+00000202 l    d  .noinit	00000000 .noinit
+00000000 l    d  .MP430.attributes	00000000 .MP430.attributes
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    df *ABS*	00000000 main.c
+00000000 l    df *ABS*	00000000 /opt/ti/msp430-gcc-9.3.1.11_linux64/bin/../lib/gcc/msp430-elf/9.3.1/../../../../msp430-elf/lib/430/crt0.o
+0000fffe l       __reset_vector	00000000 __msp430_resetvec_hook
+00000000 l    df *ABS*	00000000 crt_bss.o
+00000000 l    df *ABS*	00000000 crt_main.o
+00000000 l    df *ABS*	00000000 lib_a-memset.o
+0000f01c g     F .text	00000002 NMI_ISR
+0000f004 g     F .text	00000004 __crt0_start
+0000f008 g     F .text	0000000e __crt0_init_bss
+00000002 g       *ABS*	00000000 __bsssize
+00000200 g     O .bss	00000002 state
+00000202 g       .noinit	00000000 end
+0000f004 g       .text	00000000 _start
+00000000  w      *ABS*	00000000 __rom_highdatacopysize
+0000f07c g     F .text	00000014 memset
+0000f01e g     F .text	00000064 main
+00000000  w      *ABS*	00000000 __high_bsssize
+00000000  w      *ABS*	00000000 __rom_highdatastart
+00000000  w      *ABS*	00000000 __high_datastart
+00000000  w      *ABS*	00000000 __upper_data_init
+00000200 g       .bss	00000000 __bssstart
+00001200 g       .noinit	00000000 __stack
+00000200 g       .data	00000000 _edata
+00000000  w      *ABS*	00000000 __high_bssstart
+0000f016 g     F .text	00000006 __crt0_call_main
+
+
+
+Disassembly of section __interrupt_vector_13:
+
+0000fff8 <__interrupt_vector_13>:
+    fff8:	1c f0       	interrupt service routine at 0xf01c
+
+Disassembly of section .text:
+
+0000f004 <__crt0_start>:
+    f004:	31 40 00 12 	mov	#4608,	r1	;#0x1200
+
+0000f008 <__crt0_init_bss>:
+    f008:	3c 40 00 02 	mov	#512,	r12	;#0x0200
+
+0000f00c <.Loc.76.1>:
+    f00c:	0d 43       	clr	r13		;
+
+0000f00e <.Loc.77.1>:
+    f00e:	3e 40 02 00 	mov	#2,	r14	;
+
+0000f012 <.Loc.81.1>:
+    f012:	b0 12 7c f0 	call	#-3972		;#0xf07c
+
+0000f016 <__crt0_call_main>:
+    f016:	0c 43       	clr	r12		;
+
+0000f018 <.Loc.254.1>:
+    f018:	b0 12 1e f0 	call	#-4066		;#0xf01e
+
+0000f01c <NMI_ISR>:
+
+// #define NMI_VECTOR          (0x0018)   // Vector 12  (0xFFF8) - Non-maskable
+interrupt(13) NMI_ISR(void)  // !!! interrupt(x) = interrupt(vector + 1)
+{
+//  P1OUT = 0x00; // clear nmi here
+  while(1); 
+    f01c:	ff 3f       	jmp	$+0      	;abs 0xf01c
+
+0000f01e <main>:
+}
+
+int main() {
+
+  asm("eint");
+    f01e:	32 d2       	eint			
+
+0000f020 <.Loc.16.1>:
+
+  WDTCTL = WDTPW | WDTHOLD;
+    f020:	b2 40 80 5a 	mov	#23168,	&0x0120	;#0x5a80
+    f024:	20 01 
+
+0000f026 <.Loc.17.1>:
+  state = 0;
+    f026:	82 43 00 02 	mov	#0,	&0x0200	;r3 As==00
+
+0000f02a <.Loc.18.1>:
+  P1DIR = 0x00;
+    f02a:	82 43 1c 00 	mov	#0,	&0x001c	;r3 As==00
+
+0000f02e <.L9>:
+  
+  while (1) {
+	P1OUT = 0x80;
+    f02e:	b2 40 80 00 	mov	#128,	&0x001a	;#0x0080
+    f032:	1a 00 
+
+0000f034 <.Loc.22.1>:
+	switch (state) {
+    f034:	1c 42 00 02 	mov	&0x0200,r12	;0x0200
+    f038:	0c 93       	cmp	#0,	r12	;r3 As==00
+    f03a:	0e 24       	jz	$+30     	;abs 0xf058
+    f03c:	1c 93       	cmp	#1,	r12	;r3 As==01
+    f03e:	15 24       	jz	$+44     	;abs 0xf06a
+
+0000f040 <.L6>:
+	case 1:
+	  P2OUT = 0x1;
+	  if (P2IN == 0x0) state = 0;
+	  break;
+	}
+	P1OUT = 0x00;	  
+    f040:	82 43 1a 00 	mov	#0,	&0x001a	;r3 As==00
+
+0000f044 <.Loc.34.1>:
+
+    if (P2IN != P2OUT) {
+    f044:	1d 42 26 00 	mov	&0x0026,r13	;0x0026
+
+0000f048 <.Loc.34.1>:
+    f048:	1c 42 28 00 	mov	&0x0028,r12	;0x0028
+
+0000f04c <.Loc.34.1>:
+    f04c:	0d 9c       	cmp	r12,	r13	;
+    f04e:	ef 27       	jz	$-32     	;abs 0xf02e
+
+0000f050 <.Loc.35.1>:
+        P1OUT = 0x05;
+    f050:	b2 40 05 00 	mov	#5,	&0x001a	;
+    f054:	1a 00 
+    f056:	eb 3f       	jmp	$-40     	;abs 0xf02e
+
+0000f058 <.L4>:
+	  P2OUT = 0x0;
+    f058:	82 43 28 00 	mov	#0,	&0x0028	;r3 As==00
+
+0000f05c <.Loc.25.1>:
+	  if (P2IN == 0x1) state = 1;
+    f05c:	1c 42 26 00 	mov	&0x0026,r12	;0x0026
+
+0000f060 <.Loc.25.1>:
+    f060:	1c 93       	cmp	#1,	r12	;r3 As==01
+    f062:	ee 23       	jnz	$-34     	;abs 0xf040
+
+0000f064 <.Loc.25.1>:
+    f064:	92 43 00 02 	mov	#1,	&0x0200	;r3 As==01
+    f068:	eb 3f       	jmp	$-40     	;abs 0xf040
+
+0000f06a <.L5>:
+	  P2OUT = 0x1;
+    f06a:	92 43 28 00 	mov	#1,	&0x0028	;r3 As==01
+
+0000f06e <.Loc.29.1>:
+	  if (P2IN == 0x0) state = 0;
+    f06e:	1c 42 26 00 	mov	&0x0026,r12	;0x0026
+
+0000f072 <.Loc.29.1>:
+    f072:	0c 93       	cmp	#0,	r12	;r3 As==00
+    f074:	e5 23       	jnz	$-52     	;abs 0xf040
+
+0000f076 <.Loc.29.1>:
+    f076:	82 43 00 02 	mov	#0,	&0x0200	;r3 As==00
+    f07a:	e2 3f       	jmp	$-58     	;abs 0xf040
+
+0000f07c <memset>:
+    f07c:	0e 5c       	add	r12,	r14	;
+
+0000f07e <.LVL2>:
+    f07e:	0f 4c       	mov	r12,	r15	;
+
+0000f080 <.L2>:
+    f080:	0f 9e       	cmp	r14,	r15	;
+    f082:	01 20       	jnz	$+4      	;abs 0xf086
+
+0000f084 <L0^A>:
+    f084:	30 41       	ret			
+
+0000f086 <.L3>:
+    f086:	1f 53       	inc	r15		;
+
+0000f088 <.LVL4>:
+    f088:	cf 4d ff ff 	mov.b	r13,	-1(r15)	; 0xffff
+    f08c:	f9 3f       	jmp	$-12     	;abs 0xf080
